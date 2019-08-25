@@ -79,3 +79,13 @@ The code given is structured as follows. Feel free however to modify the structu
 * [Sqlite3](https://sqlite.org/index.html) - Database storage engine
 
 Happy hacking 😁!
+
+Key design decisions with reasons:
+
+### Scheduler
+The scheduler should should run on another server, and trigger the api end point /doBilling to start the billing service
+The scheduler can maybe run on the Jenkins server (check date and trigger for first of the month, 12:00:00 )
+Should be a night job, so that it does not load the servers
+
+###doBilling
+Before executing the end point, it must be authenticated that the scheduler has requested this action
