@@ -12,7 +12,6 @@ private val logger = KotlinLogging.logger {}
 
 // Start scheduler
 internal fun startScheduler(billingService: BillingService): Unit {
-    print("this fn was called")
     val currentDate = Date()
     var currentMonth = currentDate.month
     var nextMonth: Int

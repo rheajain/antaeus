@@ -15,7 +15,7 @@ class BillingService(
 ) {
    // TODO - Add code e.g. here
    fun doBilling(): Int{
-       
+
        //fetch invoices that have status pending one by one
         val pendingInvoice = invoiceService.fetchPending()
         
@@ -34,12 +34,10 @@ class BillingService(
             if(paymentProvider.charge(invoice) ){
                 invoiceService.updateStatus(invoice.id, InvoiceStatus.PAID)
                 logger.info { "Billing successful for Invoice Id $invoiceId" }
-                println("Billing successful for Invoice Id $invoiceId")
                 return 1 
             } else{
                 invoiceService.updateStatus(invoice.id, InvoiceStatus.FAILED)
                 logger.info { "Billing failed for Invoice Id $invoiceId" } 
-                println("Billing failed for Invoice Id $invoiceId")
                 return 2
             }
         } catch(e: Exception){
