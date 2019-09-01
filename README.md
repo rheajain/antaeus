@@ -83,9 +83,16 @@ Happy hacking 😁!
 Key design decisions with reasons:
 
 ### Scheduler
-The scheduler should should run on another server, and trigger the api end point /doBilling to start the billing service
-The scheduler can maybe run on the Jenkins server (check date and trigger for first of the month, 12:00:00 )
-Should be a night job, so that it does not load the servers
+Scheduler is started in the app from the startScheduler() method
+It sets a timer for the 1st of next month. On the first of each month, a startBilling() is triggered
 
-###doBilling
-Before executing the end point, it must be authenticated that the scheduler has requested this action
+startBilling()
+iterates through all the pending invoices and attempts to charge them.
+At the end it again calls startScheduler() to set the next months timer
+
+### doBilling
+In case of a successful transaction, the status of the invoice is changed to PAID
+In case of an exception or error, the status is changed to FAILED. (these invoices should be checked again later for issues)
+
+If an invoice is being attempted to be paid, its status is changed to INPROGRESS
+This is done, taking the assumption that in a production scenario, there will be several stateless servers attempting to pay the invoice at the same time

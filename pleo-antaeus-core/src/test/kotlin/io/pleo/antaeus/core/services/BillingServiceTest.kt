@@ -10,7 +10,7 @@ import io.pleo.antaeus.models.Money
 import io.pleo.antaeus.models.Currency
 import io.pleo.antaeus.models.InvoiceStatus
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows;
 import io.pleo.antaeus.core.exceptions.CurrencyMismatchException
 
@@ -34,16 +34,18 @@ class BillingServiceTest {
 
     @Test
     fun `Should return success message when PaymentProvider returns charge true`() {
-        assertEquals("Billing successful for Invoice Id 11", billingService.billInvoice(pendingInvoice1))
+        assertEquals(1, billingService.billInvoice(pendingInvoice1))
     }
 
     @Test
     fun `Should return failure message when PaymentProvider returns charge false`() {
-        assertEquals("Billing failed for Invoice Id 12", billingService.billInvoice(pendingInvoice2))
+        assertEquals(2, billingService.billInvoice(pendingInvoice2))
     }
 
     @Test
     fun `Should say billing failed when an exception is thrown` () {
-        assertEquals("Billing failed", billingService.billInvoice(pendingInvoice3))
+        assertThrows<CurrencyMismatchException>{
+            billingService.billInvoice(pendingInvoice3)
+        } 
     }
 }
