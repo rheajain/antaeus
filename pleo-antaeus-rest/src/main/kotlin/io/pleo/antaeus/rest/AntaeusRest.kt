@@ -76,13 +76,6 @@ class AntaeusRest (
                            it.json(customerService.fetch(it.pathParam("id").toInt()))
                        }
                    }
-
-                   path("dobilling") {
-                       //URL: /rest/v1/dobilling
-                       get{
-                           it.json(billingService.doBilling())
-                       }
-                   }
                }
            }
         }
