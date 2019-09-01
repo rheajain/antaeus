@@ -79,3 +79,21 @@ The code given is structured as follows. Feel free however to modify the structu
 * [Sqlite3](https://sqlite.org/index.html) - Database storage engine
 
 Happy hacking 😁!
+
+Key design decisions with reasons:
+
+### Scheduler
+Scheduler is started in the app from the startScheduler() method
+It sets a timer for the 1st of next month. On the first of each month, a startBilling() is triggered
+
+startBilling()
+iterates through all the pending invoices and attempts to charge them.
+At the end it again calls startScheduler() to set the next months timer
+
+### doBilling
+In case of a successful transaction, the status of the invoice is changed to PAID
+In case of an exception or error, the status is changed to FAILED. (these invoices should be checked again later for issues)
+- Adding an invoice status FAILED also helps keep a track of "actually" PENDING invoices
+
+If an invoice is being attempted to be paid, its status is changed to INPROGRESS
+This is done, taking the assumption that in a production scenario, there will be several stateless servers attempting to pay the invoice at the same time
