@@ -17,8 +17,7 @@ private val logger = KotlinLogging.logger {}
 
 class AntaeusRest (
     private val invoiceService: InvoiceService,
-    private val customerService: CustomerService,
-    private val billingService: BillingService
+    private val customerService: CustomerService
 ) : Runnable {
 
     override fun run() {
